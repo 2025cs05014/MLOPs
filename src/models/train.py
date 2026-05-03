@@ -30,7 +30,11 @@ from pathlib import Path
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (classification_report, roc_auc_score,
-                             make_scorer, precision_score, recall_score)
+                             make_scorer, precision_score, recall_score,
+                             confusion_matrix, roc_curve)
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 from sklearn.model_selection import (GridSearchCV, StratifiedKFold,
                                      cross_validate, train_test_split)
 from sklearn.pipeline import Pipeline
@@ -204,6 +208,42 @@ def main():
             mlflow.log_metric("test_recall", test_recall)
 
             mlflow.sklearn.log_model(tuned_pipeline, artifact_path="model")
+
+            # --- MLflow: log confusion matrix plot ---
+            cm = confusion_matrix(y_test, y_pred)
+            fig_cm, ax_cm = plt.subplots(figsize=(5, 4))
+            ax_cm.imshow(cm, cmap='Blues')
+            for i in range(2):
+                for j in range(2):
+                    ax_cm.text(j, i, str(cm[i, j]), ha='center', va='center',
+                               color='white' if cm[i, j] > cm.max() / 2 else 'black', fontsize=14)
+            ax_cm.set_xlabel('Predicted')
+            ax_cm.set_ylabel('Actual')
+            ax_cm.set_title(f'Confusion Matrix — {name}')
+            ax_cm.set_xticks([0, 1])
+            ax_cm.set_yticks([0, 1])
+            ax_cm.set_xticklabels(['No Disease', 'Disease'])
+            ax_cm.set_yticklabels(['No Disease', 'Disease'])
+            fig_cm.tight_layout()
+            cm_path = str(BASE_DIR / f"screenshots/cm_{name.replace(' ', '_').lower()}.png")
+            fig_cm.savefig(cm_path, dpi=100)
+            mlflow.log_artifact(cm_path)
+            plt.close(fig_cm)
+
+            # --- MLflow: log ROC curve plot ---
+            fpr, tpr, _ = roc_curve(y_test, y_prob)
+            fig_roc, ax_roc = plt.subplots(figsize=(5, 4))
+            ax_roc.plot(fpr, tpr, label=f'{name} (AUC={test_auc:.3f})')
+            ax_roc.plot([0, 1], [0, 1], 'k--', alpha=0.5)
+            ax_roc.set_xlabel('False Positive Rate')
+            ax_roc.set_ylabel('True Positive Rate')
+            ax_roc.set_title(f'ROC Curve — {name}')
+            ax_roc.legend(loc='lower right')
+            fig_roc.tight_layout()
+            roc_path = str(BASE_DIR / f"screenshots/roc_{name.replace(' ', '_').lower()}.png")
+            fig_roc.savefig(roc_path, dpi=100)
+            mlflow.log_artifact(roc_path)
+            plt.close(fig_roc)
 
             results_summary[name] = {
                 "pipeline": tuned_pipeline,

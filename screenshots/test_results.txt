@@ -1,0 +1,39 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.3, pytest-9.0.3, pluggy-1.6.0 -- /Users/ambtripa/Desktop/Ambika/BIT-MTech/Sem2/MLOps/Assignment/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/ambtripa/Desktop/Ambika/BIT-MTech/Sem2/MLOps/Assignment
+plugins: anyio-4.13.0
+collecting ... collected 24 items
+
+tests/test_api.py::TestAPI::test_root PASSED                             [  4%]
+tests/test_api.py::TestAPI::test_health PASSED                           [  8%]
+tests/test_api.py::TestAPI::test_predict_valid PASSED                    [ 12%]
+tests/test_api.py::TestAPI::test_predict_missing_field PASSED            [ 16%]
+tests/test_api.py::TestAPI::test_metrics_endpoint PASSED                 [ 20%]
+tests/test_model.py::TestTraining::test_models_dict_has_entries PASSED   [ 25%]
+tests/test_model.py::TestTraining::test_each_model_has_pipeline_and_grid PASSED [ 29%]
+tests/test_model.py::TestTraining::test_cross_val_evaluate_returns_metrics PASSED [ 33%]
+tests/test_model.py::TestInference::test_predictor_loads PASSED          [ 37%]
+tests/test_model.py::TestInference::test_predict_returns_dict PASSED     [ 41%]
+tests/test_model.py::TestInference::test_predict_has_required_keys PASSED [ 45%]
+tests/test_model.py::TestInference::test_prediction_is_binary PASSED     [ 50%]
+tests/test_model.py::TestInference::test_confidence_in_range PASSED      [ 54%]
+tests/test_model.py::TestInference::test_risk_level_valid PASSED         [ 58%]
+tests/test_model.py::TestInference::test_predict_batch PASSED            [ 62%]
+tests/test_model.py::TestInference::test_sample_input_has_all_features PASSED [ 66%]
+tests/test_preprocess.py::TestLoadData::test_returns_dataframe PASSED    [ 70%]
+tests/test_preprocess.py::TestLoadData::test_no_missing_values PASSED    [ 75%]
+tests/test_preprocess.py::TestLoadData::test_expected_columns_present PASSED [ 79%]
+tests/test_preprocess.py::TestLoadData::test_target_is_binary PASSED     [ 83%]
+tests/test_preprocess.py::TestLoadData::test_non_empty PASSED            [ 87%]
+tests/test_preprocess.py::TestLoadData::test_feature_count PASSED        [ 91%]
+tests/test_preprocess.py::TestLoadData::test_invalid_path_raises PASSED  [ 95%]
+tests/test_preprocess.py::TestLoadData::test_handles_missing_values PASSED [100%]
+
+=============================== warnings summary ===============================
+tests/test_api.py::TestAPI::test_root
+  /Users/ambtripa/Desktop/Ambika/BIT-MTech/Sem2/MLOps/Assignment/src/api/model_app.py:85: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class PatientData(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 24 passed, 1 warning in 11.50s ========================

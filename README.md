@@ -294,8 +294,44 @@ GitHub Actions workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 3. **Train** — model training with artifact upload
 4. **Docker** — build & smoke-test container
 
-## Monitoring
+## Monitoring (Prometheus + Grafana)
 
-- **Prometheus metrics** exposed at `/metrics`
-- **Logging** to `api.log` and stdout
-- Metrics tracked: `predictions_total`, `prediction_latency_seconds`, `http_requests_total`
+### Quick Start with Docker Compose
+
+```bash
+docker compose up -d --build
+```
+
+This starts three services:
+
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| **Heart Disease API** | http://localhost:8000 | — |
+| **Prometheus** | http://localhost:9090 | — |
+| **Grafana** | http://localhost:3000 | admin / admin |
+
+### Grafana Dashboard
+
+A pre-provisioned dashboard **"Heart Disease API Monitoring"** is auto-loaded with panels for:
+- Total predictions count
+- Predictions rate by result
+- Prediction latency (p95)
+- HTTP request rate by method/endpoint/status
+- Average prediction latency over time
+
+### Metrics Tracked
+
+- `predictions_total` — counter by prediction result
+- `prediction_latency_seconds` — histogram of inference time
+- `http_requests_total` — counter by method, endpoint, status
+
+### Logging
+
+- Structured logs to `api.log` and stdout
+- Request/response logging with timestamps
+
+### Cleanup
+
+```bash
+docker compose down
+```

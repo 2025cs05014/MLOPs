@@ -1,0 +1,58 @@
+=== Docker Compose Services ===
+time="2026-05-03T17:47:18+05:30" level=warning msg="/Users/ambtripa/Desktop/Ambika/BIT-MTech/Sem2/MLOps/Assignment/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+NAME                IMAGE                          COMMAND                  SERVICE             CREATED              STATUS                          PORTS
+grafana             grafana/grafana:latest         "/run.sh"                grafana             About a minute ago   Up About a minute               0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+heart-disease-api   assignment-heart-disease-api   "uvicorn src.api.mod…"   heart-disease-api   About a minute ago   Up About a minute (unhealthy)   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+prometheus          prom/prometheus:latest         "/bin/prometheus --c…"   prometheus          About a minute ago   Up About a minute               0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp
+
+=== API Health Check ===
+{
+    "status": "healthy",
+    "pipeline_loaded": true,
+    "timestamp": "2026-05-03T12:17:18.305902"
+}
+
+=== API Prediction ===
+{
+    "prediction": 0,
+    "prediction_label": "No Heart Disease",
+    "confidence": 0.1651,
+    "risk_level": "Low Risk",
+    "timestamp": "2026-05-03T12:17:18.530247"
+}
+
+=== Prometheus Targets ===
+{
+    "status": "success",
+    "data": {
+        "activeTargets": [
+            {
+                "discoveredLabels": {
+                    "__address__": "heart-disease-api:8000",
+                    "__metrics_path__": "/metrics",
+                    "__scheme__": "http",
+                    "__scrape_interval__": "15s",
+                    "__scrape_timeout__": "10s",
+                    "job": "heart-disease-api"
+                },
+                "labels": {
+                    "instance": "heart-disease-api:8000",
+                    "job": "heart-disease-api"
+                },
+                "scrapePool": "heart-disease-api",
+                "scrapeUrl": "http://heart-disease-api:8000/metrics",
+                "globalUrl": "http://heart-disease-api:8000/metrics",
+                "lastError": "",
+                "lastScrape": "2026-05-03T12:17:04.040124002Z",
+                "lastScrapeDuration": 0.030512,
+                "health": "up",
+                "scrapeInterval": "15s",
+                "scrapeTimeout": "10s"
+            }
+        ],
+        "droppedTargets": [],
+        "droppedTargetCounts": {
+            "heart-disease-api": 0
+        }
+    }
+}

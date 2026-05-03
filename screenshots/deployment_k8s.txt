@@ -1,0 +1,55 @@
+=== Kubernetes Deployment ===
+NAME                                     READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+pod/heart-disease-api-7b5bc5b856-4fch6   1/1     Running   0          20s   10.244.0.7   minikube   <none>           <none>
+pod/heart-disease-api-7b5bc5b856-7phtg   1/1     Running   0          20s   10.244.0.6   minikube   <none>           <none>
+
+NAME                                TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE   SELECTOR
+service/heart-disease-api-service   LoadBalancer   10.105.51.75   <pending>     80:31725/TCP   19s   app=heart-disease-api
+service/kubernetes                  ClusterIP      10.96.0.1      <none>        443/TCP        48m   <none>
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS          IMAGES                     SELECTOR
+deployment.apps/heart-disease-api   2/2     2            2           20s   heart-disease-api   heart-disease-api:latest   app=heart-disease-api
+
+=== Deployment Description ===
+Name:                   heart-disease-api
+Namespace:              default
+CreationTimestamp:      Sun, 03 May 2026 17:48:59 +0530
+Labels:                 app=heart-disease-api
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=heart-disease-api
+Replicas:               2 desired | 2 updated | 2 total | 2 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=heart-disease-api
+  Containers:
+   heart-disease-api:
+    Image:      heart-disease-api:latest
+    Port:       8000/TCP
+    Host Port:  0/TCP
+    Limits:
+      cpu:     500m
+      memory:  512Mi
+    Requests:
+      cpu:      250m
+      memory:   256Mi
+    Liveness:   http-get http://:8000/health delay=10s timeout=1s period=30s #success=1 #failure=3
+    Readiness:  http-get http://:8000/health delay=5s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      MODEL_PATH:  /app/src/models/heart_model.pkl
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   heart-disease-api-7b5bc5b856 (2/2 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  20s   deployment-controller  Scaled up replica set heart-disease-api-7b5bc5b856 from 0 to 2
