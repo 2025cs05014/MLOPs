@@ -1,6 +1,6 @@
 # Heart Disease Prediction — MLOps Assignment Report
 
-**Student ID:** 2025cs05014
+**Student ID:** Ambika Prasad Tripathy(2025cs05014)
 **Course:** MLOps — M.Tech Semester 2, BIT Mesra
 **GitHub Repository:** [https://github.com/2025cs05014/MLOPs](https://github.com/2025cs05014/MLOPs)
 
