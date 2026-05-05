@@ -23,7 +23,6 @@ Usage:
 import joblib
 import mlflow
 import mlflow.sklearn
-import numpy as np
 import pandas as pd
 from pathlib import Path
 
@@ -103,10 +102,10 @@ MODELS = {
 def cross_val_evaluate(pipeline, X, y, cv):
     """Run cross-validation and return mean ± std for key metrics."""
     scoring = {
-        "accuracy":  "accuracy",
+        "accuracy": "accuracy",
         "precision": make_scorer(precision_score, zero_division=0),
-        "recall":    make_scorer(recall_score, zero_division=0),
-        "roc_auc":   "roc_auc",
+        "recall": make_scorer(recall_score, zero_division=0),
+        "roc_auc": "roc_auc",
     }
     results = cross_validate(pipeline, X, y, cv=cv, scoring=scoring)
     summary = {
@@ -131,7 +130,7 @@ def print_test_metrics(name, y_test, y_pred, y_prob):
     print(f"  ROC-AUC : {auc:.4f}")
     print(classification_report(y_test, y_pred,
                                 target_names=["No Disease", "Disease"]))
-                                # indent=2))
+    # indent=2))
 
 
 # ---------------------------------------------------------------------------
@@ -282,8 +281,8 @@ def main():
         print(f"  {name:<22}  CV ROC-AUC = {mean_auc:.4f} ± {std_auc:.4f}{marker}")
 
     print(f"\n  Winner : {best_name}  (highest mean CV ROC-AUC = {best_auc:.4f})")
-    print(f"  Rationale: model chosen purely on generalisation performance "
-          f"measured by stratified 5-fold cross-validation ROC-AUC.\n")
+    print("  Rationale: model chosen purely on generalisation performance "
+          "measured by stratified 5-fold cross-validation ROC-AUC.\n")
 
     # -----------------------------------------------------------------------
     # Step 4 – Save best model & log as MLflow artifact

@@ -3,8 +3,6 @@ Unit tests for model training and inference modules.
 """
 
 import pytest
-import numpy as np
-import pandas as pd
 from pathlib import Path
 
 import sys

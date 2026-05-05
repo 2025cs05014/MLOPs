@@ -41,7 +41,7 @@ class TestLoadData:
         assert len(df) > 0
 
     def test_feature_count(self):
-        df = load_data(str(DATA_PATH))
+        load_data(str(DATA_PATH))
         assert len(FEATURE_COLS) == 13
 
     def test_invalid_path_raises(self):

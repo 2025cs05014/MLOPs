@@ -81,19 +81,19 @@ def home():
 
     if request.method == "POST":
         input_data = {
-            'age':      float(request.form["age"]),
-            'sex':      int(request.form["sex"]),
-            'cp':       int(request.form["cp"]),
+            'age': float(request.form["age"]),
+            'sex': int(request.form["sex"]),
+            'cp': int(request.form["cp"]),
             'trestbps': float(request.form["trestbps"]),
-            'chol':     float(request.form["chol"]),
-            'fbs':      int(request.form["fbs"]),
-            'restecg':  int(request.form["restecg"]),
-            'thalach':  float(request.form["thalach"]),
-            'exang':    int(request.form["exang"]),
-            'oldpeak':  float(request.form["oldpeak"]),
-            'slope':    int(request.form["slope"]),
-            'ca':       int(request.form["ca"]),
-            'thal':     int(request.form["thal"]),
+            'chol': float(request.form["chol"]),
+            'fbs': int(request.form["fbs"]),
+            'restecg': int(request.form["restecg"]),
+            'thalach': float(request.form["thalach"]),
+            'exang': int(request.form["exang"]),
+            'oldpeak': float(request.form["oldpeak"]),
+            'slope': int(request.form["slope"]),
+            'ca': int(request.form["ca"]),
+            'thal': int(request.form["thal"]),
         }
         result = predictor.predict(input_data)
 
