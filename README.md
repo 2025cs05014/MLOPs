@@ -225,9 +225,19 @@ curl http://127.0.0.1:<PORT>/metrics
 open http://127.0.0.1:<PORT>/docs
 ```
 
+**Step 9 — Deploy Prometheus on Kubernetes (optional):**
+
+```bash
+kubectl apply -f k8s/prometheus-config.yaml
+kubectl apply -f k8s/prometheus-deployment.yaml
+minikube service prometheus-service
+```
+
 **Cleanup:**
 
 ```bash
+kubectl delete -f k8s/prometheus-deployment.yaml
+kubectl delete -f k8s/prometheus-config.yaml
 kubectl delete -f k8s/service.yaml
 kubectl delete -f k8s/deployment.yaml
 minikube stop
@@ -237,6 +247,8 @@ minikube stop
 
 - **`k8s/deployment.yaml`** — 2 replicas, liveness/readiness probes on `/health`, resource requests/limits
 - **`k8s/service.yaml`** — LoadBalancer Service mapping port 80 → container port 8000
+- **`k8s/prometheus-config.yaml`** — ConfigMap with Prometheus config targeting K8s service DNS (`heart-disease-api-service:80`)
+- **`k8s/prometheus-deployment.yaml`** — Prometheus Deployment + NodePort Service for K8s monitoring
 
 ## Model Details
 

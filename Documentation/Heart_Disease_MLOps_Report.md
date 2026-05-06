@@ -421,19 +421,6 @@ Production-ready Kubernetes manifests are provided for enterprise deployment:
 
 **deployment.yaml:**
 - 2 replicas with rolling update strategy
-- Liveness probe: `GET /health` (delay=10s, period=30s)
-- Readiness probe: `GET /health` (delay=5s, period=10s)
-- Resource requests: 250m CPU, 256Mi memory
-- Resource limits: 500m CPU, 512Mi memory
-
-**service.yaml:**
-- LoadBalancer service exposing port 80 → container port 8000
-
-**Verified K8s deployment:**
-```
-NAME                                     READY   STATUS    RESTARTS   AGE
-pod/heart-disease-api-7b5bc5b856-4fch6   1/1     Running   0          20s
-pod/heart-disease-api-7b5bc5b856-7phtg   1/1     Running   0          20s
 
 NAME                                TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)
 service/heart-disease-api-service   LoadBalancer   10.105.51.75   <pending>     80:31725/TCP
@@ -462,10 +449,25 @@ The `/metrics` endpoint exposes production-grade metrics:
 - **`prediction_latency_seconds`** — Histogram of prediction processing time
 - **`http_requests_total`** — Counter of all HTTP requests, labeled by method, endpoint, and status code
 
-Prometheus scrape configuration (`monitoring/prometheus.yml`):
+Prometheus scrape configuration:
+
+**Docker Compose** (`monitoring/prometheus.yml`):
 - Scrape interval: 15 seconds
-- Target: `heart-disease-api:8000`
+- Target: `heart-disease-api:8000` (Docker Compose service DNS)
 - Metrics path: `/metrics`
+
+**Kubernetes** (`k8s/prometheus-config.yaml` + `k8s/prometheus-deployment.yaml`):
+- Scrape interval: 15 seconds
+- Target: `heart-disease-api-service:80` (K8s service DNS)
+- Metrics path: `/metrics`
+- Deployed as a ConfigMap + Deployment + NodePort Service
+
+```bash
+# Deploy Prometheus on Kubernetes
+kubectl apply -f k8s/prometheus-config.yaml
+kubectl apply -f k8s/prometheus-deployment.yaml
+minikube service prometheus-service
+```
 
 ### 10.3 Grafana Dashboard
 
